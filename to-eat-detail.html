@@ -16,7 +16,7 @@
 <body>
   <header class="header">
     <nav class="container header-inner">
-      <a href="#" class="nav-logo">
+      <a href="index.html" class="nav-logo">
         <i class="ri-home-line"></i>
         <span>HOMEPAGE</span>
       </a>
@@ -123,9 +123,9 @@
       category: "Dessert", 
       area: "Seongsu", 
       image: "images/maman.jpg", 
-      description: "請在此填寫餐廳簡介。", 
-      address: "請在此填寫韓文或英文地址。", 
-      googleMapQuery: "南韓 Seoul, Seongdong-gu, Yeonmujang 9-gil, 8 1층",
+      description: "招牌是迪拜巧克力味，很多人排隊", 
+      address: "南韓 Seoul, Seongdong-gu, Yeonmujang 9-gil, 8 1층", 
+      googleMapQuery: "Maman Gelato Seongsu",
       naverMapQuery: "마망젤라또 서울 성수동",
       hours: "11:30 – 21:00", 
       reason: "想吃matcha with straberry和chocolate berry" },
@@ -144,13 +144,13 @@
       { name: "글로리칼국수", 
       category: "Korean", 
       area: "Seongsu", 
-      image: "#", 
-      description: "請在此填寫餐廳簡介。", 
-      address: "11:00–21:30", 
+      image: "images/glory.jpg", 
+      description: "主打韓式刀切麵&人參雞湯", 
+      address: "南韓 Seoul, Mapo-gu, World Cup-ro 13-gil, 73 1층", 
       googleMapQuery: "글로리칼국수 성수점",
       naverMapQuery: "글로리칼국수 서울 성수동",
-      hours: "請在此填寫營業時間及公休日。", 
-      reason: "吃過，覺得pretty good, 可能是因為當時心情好" },
+      hours: "12:00–20:00 (no mon & tue) 那我當時挺幸運的", 
+      reason: "吃過的一個韓餐，覺得pretty good" },
 
   /* ======= Hannam ========== */
       { name: "솔솥 한남점", 
@@ -164,23 +164,15 @@
       hours: "11:30–21:00", 
       reason: "請在此填寫推薦原因或必點菜式。" },
 
-      { name: "Little Neck Hannam", 
-      category: "Cafe", 
-      area: "Hannam", 
-      image: "#", 
-      description: "請在此填寫餐廳簡介。", 
-      address: "請在此填寫韓文或英文地址。", 
-      hours: "請在此填寫營業時間及公休日。", 
-      reason: "請在此填寫推薦原因或必點菜式。" },
-
   /* ======= Mangwon ========== */
-      { name: "Ugly Bakery", 
-      category: "Bakery", 
+      { name: "望遠市場", 
+      category: "Korean", 
       area: "Mangwon", 
       image: "#", 
       description: "請在此填寫餐廳簡介。", 
-      address: "請在此填寫韓文或英文地址。", 
-      naverMapQuery: "어글리베이커리",
+      address: "27 Poeun-ro 6-gil, Mapo-gu, Seoul, 南韓", 
+      googleMapQuery: "망원시장",
+      naverMapQuery: "망원시장",
       hours: "請在此填寫營業時間及公休日。", 
       reason: "請在此填寫推薦原因或必點菜式。" },
 
@@ -189,10 +181,14 @@
       category: "Cafe", 
       area: "Yeonnam", 
       image: "images/oat-coffee-2.jpeg", 
-      description: "Einspanner 6500won 挺便宜的", 
-      address: "請在此填寫韓文或英文地址。", 
+      description: "跟弘大地鐵站有點距離，步行約14分鐘", 
+      address: "29-8 Seongmisan-ro 29-gil, Mapo-gu, Seoul, 南韓", 
+      googleMapQuery: "oats coffee Yeonnam",
+      naverMapQuery: "오츠커피 연남",
       hours: "11:00–21:00", 
-      reason: "聽說這的維也納咖啡很好喝" },
+      reason: "聽說這的維也納咖啡很好喝 6500won 挺便宜的" },
+
+        /* ======= chain ========== */
 
      { name: "", 
       category: "", 
@@ -219,7 +215,9 @@
       Seongsu: "Seongsu-dong",
       Hannam:  "Hannam",
       Mangwon: "Mangwon-dong",
-      Yeonnam: "Yeonnam-dong"
+      Yeonnam: "Yeonnam-dong",
+      delivery: "Delivery",
+      chain: "Chain"
     };
 
     /* 注意：value 要跟 places.area 一致（不是顯示文字） */
@@ -237,7 +235,9 @@
       { value: "Seongsu", label: "Seongsu-dong" },
       { value: "Hannam",  label: "Hannam" },
       { value: "Mangwon", label: "Mangwon-dong" },
-      { value: "Yeonnam", label: "Yeonnam-dong" }
+      { value: "Yeonnam", label: "Yeonnam-dong" },
+      { value: "delivery", label: "Delivery" },
+      { value: "chain", label: "Chain" }
     ];
 
     /* =========================================================
@@ -463,5 +463,10 @@ const matchKeyword =
     buildChips(areaChips, AREA_OPTIONS, "area");
     renderCards();
   </script>
+
+    <footer>
+    <span>© 2026 SEOUL NOTES</span>
+    <span>MADE BY KATY (PERSONAL COLLECTION) · ABOUT KOREA</span>
+  </footer>
 </body>
 </html>
