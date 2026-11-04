@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List in Seoul</title>
+
+  <link rel="stylesheet" href="to-eat-detail.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nanum+Myeongjo&display=swap"
+        rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+    <nav class="container header-inner">
+      <a href="#" class="nav-logo">
+        <i class="ri-home-line"></i>
+        <span>HOMEPAGE</span>
+      </a>
+    </nav>
+  </header>
+
+  <section class="eat-hero">
+    <div class="container hero-inner">
+      <figure class="eat-hero-figure">
+        <img src="images/arirang-icon.png" alt="sticker" />
+      </figure>
+
+      <div class="eat-hero-content">
+        <p class="eyebrow">首爾 · 한국</p>
+        <h1 class="eat-hero-title">
+          <span class="eat-hero-title1">Seoul</span>
+          <span class="eat-hero-title2">Stores List</span>
+        </h1>
+        <p class="eat-hero-subtitle">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum,
+          diam ac tempor ultrices, lectus purus finibus erat, at pretium nisl turpis ut dui.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="list">
+    <div class="container">
+      <div class="toolbar">
+        <label for="searchInput" class="sr-only">Search</label>
+        <i class="ri-search-line"></i>
+        <input id="searchInput" type="text" placeholder="Search..." />
+        <div id="countText" aria-live="polite">0 of 0 places</div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Categories</span>
+        <div class="chips" id="categoryChips"></div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Areas</span>
+        <div class="chips" id="areaChips"></div>
+      </div>
+
+      <article class="cards" id="cardsContainer"></article>
+    </div>
+  </section>
+
+  <!-- 共用餐廳詳細資料彈窗 -->
+  <div class="modal" id="placeModal" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <section class="modal-panel" role="dialog" aria-modal="true"
+      aria-labelledby="modalTitle" aria-describedby="modalDescription" tabindex="-1">
+      <button class="modal-close" type="button" aria-label="關閉彈窗" data-modal-close>
+        <i class="ri-close-line" aria-hidden="true"></i>
+      </button>
+      <div class="modal-layout">
+        <div class="modal-image-wrap">
+          <img class="modal-image" id="modalImage" src="" alt="" />
+        </div>
+        <div class="modal-content">
+          <p class="modal-eyebrow">SEOUL · EATING LIST</p>
+          <h2 id="modalTitle"></h2>
+          <div class="modal-tags" id="modalTags"></div>
+          <section class="modal-section">
+            <p class="modal-detail" id="modalAddress"></p>
+            <div class="modal-map-links">
+              <a class="modal-link" id="modalGoogleMap" href="#" target="_blank" rel="noopener">
+                <i class="ri-map-pin-line" aria-hidden="true"></i> Google <i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+              </a>
+              <a class="modal-link" id="modalNaverMap" href="#" target="_blank" rel="noopener">
+                <i class="ri-map-pin-2-line" aria-hidden="true"></i> Naver <i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+              </a>
+            </div>
+          </section> 
+          <section class="modal-section">
+            <h3>ABOUT · 餐廳/店舖 簡介</h3>
+            <p class="modal-description" id="modalDescription"></p>
+          </section>
+
+          <section class="modal-section">
+            <h3>OPENING HOURS · 營業時間</h3>
+            <p class="modal-detail" id="modalHours"></p>
+          </section>
+          <section class="modal-section">
+            <h3>WHY VISIT · 推薦原因</h3>
+            <p class="modal-detail" id="modalReason"></p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. 資料：area 統一用 "Seongsu / Hannam / Mangwon" 這組 key，
+          顯示文字交給 AREA_LABEL 處理（修正資料不一致）
+       ========================================================= */
+    const places = [
+    
+    /* ======= Seongsu ========== */
+      { name: "Maman Gelato", 
+      category: "Dessert", 
+      area: "Seongsu", 
+      image: "images/maman.jpg", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "南韓 Seoul, Seongdong-gu, Yeonmujang 9-gil, 8 1층",
+      naverMapQuery: "마망젤라또 서울 성수동",
+      hours: "11:30 – 21:00", 
+      reason: "想吃matcha with straberry和chocolate berry" },
+
+      { name: "探光 탐광", 
+      category: "Foreign", 
+      area: "Seongsu", 
+      image: "images/tamgwang.jpg", 
+      description: "其實是一間日料店", 
+      address: "首爾 城東區 聖水洞二街 315-24", 
+      googleMapQuery: "26 Yeonmujang 5ga-gil, Seongdong-gu, Seoul, 南韓",
+      naverMapQuery: "탐광 성수동",
+      hours: "11:30–15:30 ; 16:30–21:00", 
+      reason: "招牌是炸蝦排蓋飯，就是價格，套餐八十多（hkd）" },
+
+      { name: "글로리칼국수", 
+      category: "Korean", 
+      area: "Seongsu", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "11:00–21:30", 
+      googleMapQuery: "글로리칼국수 성수점",
+      naverMapQuery: "글로리칼국수 서울 성수동",
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "吃過，覺得pretty good, 可能是因為當時心情好" },
+
+  /* ======= Hannam ========== */
+      { name: "솔솥 한남점", 
+      category: "Korean", 
+      area: "Hannam", 
+      image: "#", 
+      description: "釜飯，好像有連鎖店，不一定是這間", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "Solsot Pot Rice House Hannam 솔솥 한남점",
+      naverMapQuery: "솔솥 한남점",
+      hours: "11:30–21:00", 
+      reason: "請在此填寫推薦原因或必點菜式。" },
+
+      { name: "Little Neck Hannam", 
+      category: "Cafe", 
+      area: "Hannam", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "請在此填寫韓文或英文地址。", 
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "請在此填寫推薦原因或必點菜式。" },
+
+  /* ======= Mangwon ========== */
+      { name: "Ugly Bakery", 
+      category: "Bakery", 
+      area: "Mangwon", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "請在此填寫韓文或英文地址。", 
+      naverMapQuery: "어글리베이커리",
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "請在此填寫推薦原因或必點菜式。" },
+
+   /* ======= Yeonnmam ========== */
+      { name: "oats coffee", 
+      category: "Cafe", 
+      area: "Yeonnam", 
+      image: "images/oat-coffee-2.jpeg", 
+      description: "Einspanner 6500won 挺便宜的", 
+      address: "請在此填寫韓文或英文地址。", 
+      hours: "11:00–21:00", 
+      reason: "聽說這的維也納咖啡很好喝" },
+
+     { name: "", 
+      category: "", 
+      area: "", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "",
+      naverMapQuery: "",
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "請在此填寫推薦原因或必點菜式。" }
+    ];
+
+    const CATEGORY_LABEL = {
+      Korean: "Korean",
+      Dessert: "Dessert",
+      Bakery: "Bakery",
+      Cafe: "Cafe",
+      Foreign: "Foreign"
+    };
+
+    /* key 與 places.area 完全對應，才不會出現 undefined */
+    const AREA_LABEL = {
+      Seongsu: "Seongsu-dong",
+      Hannam:  "Hannam",
+      Mangwon: "Mangwon-dong",
+      Yeonnam: "Yeonnam-dong"
+    };
+
+    /* 注意：value 要跟 places.area 一致（不是顯示文字） */
+    const CATEGORY_OPTIONS = [
+      { value: "All",      label: "All" },
+      { value: "Korean",   label: "Korean" },
+      { value: "Dessert",  label: "Dessert" },
+      { value: "Bakery",   label: "Bakery" },
+      { value: "Cafe",   label: "Cafe" },
+      { value: "Foreign", label: "Foreign" }
+    ];
+
+    const AREA_OPTIONS = [
+      { value: "All",     label: "All" },
+      { value: "Seongsu", label: "Seongsu-dong" },
+      { value: "Hannam",  label: "Hannam" },
+      { value: "Mangwon", label: "Mangwon-dong" },
+      { value: "Yeonnam", label: "Yeonnam-dong" }
+    ];
+
+    /* =========================================================
+       2. State
+       ========================================================= */
+    const state = {
+      category: "All",
+      area: "All",
+      keyword: ""
+    };
+
+    /* =========================================================
+       3. DOM
+       ========================================================= */
+    const categoryChips  = document.getElementById("categoryChips");
+    const areaChips      = document.getElementById("areaChips");
+    const cardsContainer = document.getElementById("cardsContainer");
+    const countText      = document.getElementById("countText");
+    const searchInput    = document.getElementById("searchInput");
+
+    const placeModal       = document.getElementById("placeModal");
+    const modalPanel       = placeModal.querySelector(".modal-panel");
+    const modalTitle       = document.getElementById("modalTitle");
+    const modalTags        = document.getElementById("modalTags");
+    const modalImage       = document.getElementById("modalImage");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalAddress     = document.getElementById("modalAddress");
+    const modalHours       = document.getElementById("modalHours");
+    const modalReason      = document.getElementById("modalReason");
+    const modalGoogleMap   = document.getElementById("modalGoogleMap");
+    const modalNaverMap    = document.getElementById("modalNaverMap");
+    let lastFocusedElement = null;
+
+
+    /* =========================================================
+       4. 產生篩選按鈕
+       ========================================================= */
+    function buildChips(container, options, stateKey) {
+      container.innerHTML = "";
+
+      options.forEach(function (option) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip" + (state[stateKey] === option.value ? " active" : "");
+        btn.textContent = option.label;
+
+        btn.addEventListener("click", function () {
+          state[stateKey] = option.value;
+
+          container.querySelectorAll(".chip").forEach(function (c) {
+            c.classList.remove("active");
+          });
+          btn.classList.add("active");
+
+          renderCards();
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    /* =========================================================
+       5. 工具函式（修正：原本 getMapUrl 未定義、website 未定義）
+       ========================================================= */
+    function getMapUrl(place) {return "https://www.google.com/maps/search/?api=1&query=" +
+    ncodeURIComponent(place.name + " Seoul");}
+    function getWebUrl(place) {return place.website? place.website: "https://www.google.com/search?q=" +
+    encodeURIComponent(place.name + " Seoul");} 
+
+    /* =========================================================
+       6. 依 state 過濾並渲染
+       ========================================================= */
+    function renderCards() {
+      const keyword = state.keyword.trim().toLowerCase();
+
+      const filtered = places.filter(function (place) {
+        const matchCategory =
+          state.category === "All" || place.category === state.category;
+
+        const matchArea =
+          state.area === "All" || place.area === state.area;
+
+      const searchableText = [
+        place.name,
+        place.category,
+        place.area,
+        place.address,
+       place.description,
+       place.reason
+      ].join(" ").toLowerCase();
+
+const matchKeyword =
+  keyword === "" || searchableText.includes(keyword);
+
+        return matchCategory && matchArea && matchKeyword;
+      });
+
+      countText.innerHTML =
+        "<strong>" + filtered.length + "</strong> of " + places.length + " places";
+
+      if (filtered.length === 0) {
+        cardsContainer.innerHTML =
+          '<div class="empty">沒有符合條件的地點，換個篩選條件試試吧 🙈</div>';
+        return;
+      }
+
+      cardsContainer.innerHTML = filtered.map(function (place) {
+        const webUrl   = getWebUrl(place);
+        const webLabel = place.website ? "官方網站" : "MORE";
+
+        return (
+          '<div class="card">' +
+            "<h3>" + place.name + "</h3>" +
+            '<div class="tags">' +
+              '<span class="tag tag-category">' + CATEGORY_LABEL[place.category] + "</span>" +
+              '<span class="tag tag-area">'     + AREA_LABEL[place.area]       + "</span>" +
+            "</div>" +
+            '<div class="card-links">' +
+              '<button class="btn btn-web more-button" type="button" data-place-name="' +
+                place.name.replace(/"/g, "&quot;") + '">MORE <i class="ri-arrow-right-up-line" aria-hidden="true"></i></button>' +
+            "</div>" +
+          "</div>"
+        );
+      }).join("");
+    }
+
+    /* =========================================================
+       7. Modal：開啟、關閉及填入對應餐廳資料
+       ========================================================= */
+    function openPlaceModal(place) {
+      if (!place) return;
+
+      lastFocusedElement = document.activeElement;
+      modalTitle.textContent = place.name;
+      modalTags.innerHTML =
+        '<span class="modal-tag">' + CATEGORY_LABEL[place.category] + '</span>' +
+        '<span class="modal-tag">' + AREA_LABEL[place.area] + '</span>';
+
+      modalImage.src = place.image || "images/places/placeholder.jpg";
+      modalImage.alt = place.name;
+      modalDescription.textContent = place.description || "資料待補充。";
+      modalAddress.textContent = place.address || "資料待補充。";
+      modalHours.textContent = place.hours || "資料待補充。";
+      modalReason.textContent = place.reason || "資料待補充。";
+
+      const mapQuery = encodeURIComponent(place.name + " Seoul");
+
+      modalGoogleMap.href =
+      "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(
+       place.googleMapQuery || place.name + " " + place.address);
+
+    modalNaverMap.href =
+    "https://map.naver.com/p/search/" +
+    encodeURIComponent(
+     place.naverMapQuery || place.name + " " + place.address);
+
+      placeModal.classList.add("is-open");
+      placeModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      modalPanel.focus();
+    }
+
+    function closePlaceModal() {
+      if (!placeModal.classList.contains("is-open")) return;
+
+      placeModal.classList.remove("is-open");
+      placeModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+
+      if (lastFocusedElement) lastFocusedElement.focus();
+    }
+
+    // 事件委派：搜尋或篩選後重新產生的 Card 仍然可以開啟 Modal。
+    cardsContainer.addEventListener("click", function (event) {
+      const moreButton = event.target.closest(".more-button");
+      if (!moreButton) return;
+
+      const place = places.find(function (item) {
+        return item.name === moreButton.dataset.placeName;
+      });
+      openPlaceModal(place);
+    });
+
+    placeModal.querySelectorAll("[data-modal-close]").forEach(function (element) {
+      element.addEventListener("click", closePlaceModal);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (!placeModal.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") closePlaceModal();
+
+      if (event.key === "Tab") {
+        const focusable = placeModal.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    /* =========================================================
+       8. 搜尋
+       ========================================================= */
+    searchInput.addEventListener("input", function (event) {
+      state.keyword = event.target.value;
+      renderCards();
+    });
+
+    /* =========================================================
+       9. 初始化
+       ========================================================= */
+    buildChips(categoryChips, CATEGORY_OPTIONS, "category");
+    buildChips(areaChips, AREA_OPTIONS, "area");
+    renderCards();
+  </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --base-background-color: #f5f0e8;
+  --white-color: #fffbfb;
+  --black-color: #212121;
+  --red-accent-color: #8C2D19;
+  --blue-accent-color: #1B365D;
+  --muted-color: #D9C3B0;
+  --color-will-change: #e4b74a;
+
+  --font-body: "IBM Plex Serif", serif;
+  --font-korea: "Nanum Myeongjo", serif;   /* 修正：與 Google Fonts 名稱一致 */
+
+  --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --fs-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --fs-base: clamp(1rem, 0.97rem + 0.2vw, 1.0625rem);
+  --fs-md: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  --fs-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --fs-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --fs-2xl: clamp(1.875rem, 1.5rem + 1.8vw, 2.75rem);
+  --fs-3xl: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem);
+}
+
+a { text-decoration: none; color: var(--black-color); }
+
+img { display: block; max-width: 100%; height: auto; }
+
+body {
+  background-color: var(--base-background-color);
+  padding-top: 72px;
+  font-family: var(--font-korea);
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 0.5rem + 3vw, 2.5rem);
+}
+
+/* 無障礙隱藏（修正：原本未定義，label 會顯示出來） */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============ header ============ */
+.header {
+  width: 100%;
+  position: fixed;                         /* 修正：搭配 body padding-top */
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: var(--base-background-color); /* 修正：不透明背景 */
+}
+
+.header-inner {
+  display: flex;                           /* 修正：讓 gap 生效 */
+  align-items: center;
+  min-height: 72px;
+  gap: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
+  padding-block: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
+  font-size: var(--fs-base);
+}
+
+.nav-logo {
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-logo:hover { color: #4A5568; }
+
+/* ============ hero ============ */
+.eat-hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3rem, 2.2rem + 4vw, 6rem);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-items: center;
+}
+
+.eat-hero-figure { position: relative; }
+
+.eat-hero-figure img {
+  width: 100%;
+  box-shadow: 0 12px 32px rgba(26, 32, 44, 0.12);
+  height: auto;
+  margin-bottom: 15px;
+}
+
+/* ============ font ============ */
+.eyebrow {
+  font-family: var(--font-korea);
+  font-weight: 400;
+  font-style: normal;
+  margin-bottom: 10px;
+  color: var(--red-accent-color);
+}
+
+/* 修正：補上 .eat-hero-title 並讓兩個 span 換行 */
+.eat-hero-title {
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+}
+
+.eat-hero-title1,
+.eat-hero-title2 {
+  display: block;                          /* 修正：讓 Seoul / Eating List 分兩行 */
+}
+
+.eat-hero-title1 {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--red-accent-color);
+  font-size: var(--fs-3xl);
+}
+
+.eat-hero-title2 {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-style: normal;
+  font-size: var(--fs-3xl);
+}
+
+.eat-hero-subtitle {
+  font-family: var(--font-body);
+  font-weight: 200;
+  line-height: 1.4rem;
+  margin-top: 5px;
+}
+
+.list { padding-block: clamp(2rem, 1.5rem + 3vw, 4rem); }
+
+/* ============ 顶部工具条 ============ */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#searchInput {
+  flex: 1 1 240px;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 14px;
+  outline: none;
+  background: var(--white-color);
+  }
+
+#searchInput:focus {
+  border-color: var(--black-color);
+  box-shadow: 0 0 0 3px rgba(142, 58, 42, 0.15); /* 修正：改用主題紅 */
+}
+
+#countText { font-size: 14px; color: #666; white-space: nowrap; }
+#countText strong { color: var(--black-color); }
+
+/* ============ 筛选按钮组 ============ */
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  min-width: 80px;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  padding: 7px 16px;
+  border: 1px solid #d9dde3;
+  background: var(--white-color);
+  border-radius: 999px;
+  font-size: 13px;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip:hover { border-color: var(--black-color); color: var(--black-color); }
+.chip.active {
+  background: var(--black-color);
+  border-color: var(--black-color);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ============ 卡片网格 ============ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.card {
+  background: var(--white-color);
+  border: 1px solid #d3b0b0;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card:hover {
+background-color: #fdeded;
+color: var(--red-accent-color);
+}
+
+.card h3 { margin: 0; font-size: 17px; }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { font-size: 12px; padding: 3px 10px; color: grey;}
+
+.card-links { display: flex; gap: 8px; margin-top: auto; }
+
+.btn {
+  flex: 1;
+  text-align: right;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 10px;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.85; }
+.btn-web { color: #333; }
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #888;
+  padding: 60px 0;
+  font-size: 15px;
+}
+
+/* ============ RWD ============ */
+@media screen and (max-width: 340px) {
+  .container { padding-inline: 0.75rem; }
+
+  .eat-hero-content {
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .hero-inner {
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 1120px) {
+  .hero-inner { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+/* ============ Modal / 餐廳詳細資料彈窗 ============ */
+body.modal-open { overflow: hidden; }
+.more-button { appearance:none; border:0; background:transparent; font:inherit; cursor:pointer; }
+.more-button i { margin-left:4px; vertical-align:middle; }
+
+.modal {
+  position:fixed; inset:0; z-index:1000; display:grid; place-items:center; padding:24px;
+  visibility:hidden; pointer-events:none; transition:visibility 0s linear .3s;
+}
+.modal.is-open { visibility:visible; pointer-events:auto; transition-delay:0s; }
+.modal-backdrop { position:absolute; inset:0; background:rgba(33,33,33,.62); opacity:0; transition:opacity .3s ease; }
+.modal.is-open .modal-backdrop { opacity:1; }
+.modal-panel {
+  position:relative; z-index:1; width:min(100%,900px); max-height:min(86vh,780px); overflow:auto;
+  background:var(--base-background-color); border:1px solid var(--muted-color);
+  box-shadow:0 24px 70px rgba(0,0,0,.24); opacity:0; transform:translateY(22px) scale(.985);
+  transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.modal.is-open .modal-panel { opacity:1; transform:translateY(0) scale(1); }
+.modal-layout { display:grid; grid-template-columns:50% 50%; align-items: stretch; }
+.modal-image-wrap { min-height:100%; aspect-ratio: 3 / 4; overflow:hidden; background:#e8ded2; }
+.modal-image { display: block ;width:100%; height:100%; object-fit:cover; object-position: center;}
+.modal-content { 
+  padding:clamp(28px,4vw,48px); 
+  overflow-y:auto;}
+.modal-close {
+  position:absolute; top:14px; right:14px; z-index:3; display:grid; place-items:center;
+  width:40px; height:40px; border:1px solid var(--muted-color); border-radius:50%;
+  background:var(--base-background-color); color:var(--black-color); font-size:22px; cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.modal-close:hover { background:var(--red-accent-color); color:var(--white-color); }
+.modal-eyebrow { margin:2px 42px 12px 0; color:var(--red-accent-color); font-family:var(--font-body); font-size:var(--fs-xs); letter-spacing:.12em; }
+.modal-panel h2 { margin-bottom:16px; color:var(--black-color); font-family:var(--font-body); font-size:var(--fs-2xl); font-weight:400; line-height:1.15; }
+.modal-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.modal-tag { padding:6px 12px; border:1px solid var(--muted-color); color:var(--red-accent-color); font-size:var(--fs-xs); }
+.modal-section { padding:17px 0; border-top:1px solid rgba(140,45,25,.18); }
+.modal-section h3 { margin-bottom:8px; color:var(--red-accent-color); font-family:var(--font-body); font-size:var(--fs-xs); font-weight:600; letter-spacing:.1em; }
+.modal-description,.modal-detail { color:#555; font-size:var(--fs-sm); line-height:1.8; white-space:pre-line; }
+.modal-map-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.modal-link {
+  display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:38px;
+  padding:8px 12px; border:1px solid var(--black-color); color:var(--black-color);
+  font-size:var(--fs-xs); transition:background .2s ease,color .2s ease;
+}
+.modal-link:hover { background:var(--red-accent-color); border-color:var(--red-accent-color); color:var(--white-color); }
+
+@media (max-width:680px) {
+.modal {
+    padding: 12px;
+  }
+
+  .modal-panel {
+    width: min(100%, 480px);
+    max-height: 90vh;
+  }
+
+  .modal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    max-height: none;
+  }
+
+  .modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .modal-content {
+    padding: 25px 22px 30px;
+  }
+
+  .modal-tags {
+    margin-bottom: 18px;
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+  }
+}
+@media (prefers-reduced-motion:reduce) { .modal-backdrop,.modal-panel,.modal-close { transition:none; } }
