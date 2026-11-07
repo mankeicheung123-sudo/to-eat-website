@@ -3,461 +3,481 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="探索首爾美食與旅行靈感，收藏值得造訪的餐廳、咖啡店與街頭小吃。" />
-  <title>Korea Notes</title>
+  <title>List in Seoul</title>
+
+  <link rel="stylesheet" href="to-eat-detail.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Nanum+Myeongjo&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --ink: #252522;
-      --muted: #77766f;
-      --paper: #f8f6f0;
-      --cream: #eee9df;
-      --red: #a44735;
-      --line: rgba(37, 37, 34, .16);
-      --serif: "IBM Plex Serif", "Nanum Myeongjo", serif;
-      --sans: "DM Sans", "Noto Sans TC", sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font-family: var(--sans);
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-
-    .site-header {
-      width: min(1180px, calc(100% - 64px));
-      margin: 0 auto;
-      min-height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      font-family: var(--serif);
-      font-size: 19px;
-      letter-spacing: .02em;
-    }
-    .brand-mark {
-      width: 31px;
-      height: 31px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--red);
-      border-radius: 50%;
-      color: var(--red);
-      font-family: var(--serif);
-      font-size: 16px;
-      font-style: italic;
-    }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a {
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      transition: color .2s ease;
-    }
-    .nav-links a:hover { color: var(--red); }
-    .nav-cta {
-      padding: 11px 17px;
-      border: 1px solid var(--ink);
-      color: var(--ink) !important;
-      transition: background .2s ease, color .2s ease;
-    }
-    .nav-cta:hover { background: var(--ink); color: white !important; }
-
-    .hero {
-      width: min(1180px, calc(100% - 64px));
-      margin: 0 auto;
-      min-height: 620px;
-      padding: 76px 0 88px;
-      display: grid;
-      grid-template-columns: 1.02fr .98fr;
-      align-items: center;
-      gap: 50px;
-    }
-    .eyebrow {
-      margin: 0 0 22px;
-      color: var(--red);
-      font-family: var(--serif);
-      font-size: 13px;
-      letter-spacing: .16em;
-    }
-    h1 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(66px, 9vw, 124px);
-      font-weight: 300;
-      letter-spacing: -.065em;
-      line-height: .88;
-    }
-    h1 span { display: block; }
-    h1 .second-line {
-      margin: 15px 0 0 42px;
-      color: var(--red);
-      font-style: italic;
-      font-size: .77em;
-      letter-spacing: -.055em;
-    }
-    .hero-copy {
-      max-width: 430px;
-      margin: 34px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.95;
-    }
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      margin-top: 34px;
-    }
-    .primary-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 22px;
-      padding: 15px 19px;
-      background: var(--red);
-      color: white;
-      font-size: 12px;
-      letter-spacing: .08em;
-      transition: transform .2s ease, background .2s ease;
-    }
-    .primary-link:hover { background: #873929; transform: translateY(-2px); }
-    .text-link {
-      color: var(--muted);
-      font-size: 12px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 5px;
-    }
-    .hero-art {
-      position: relative;
-      min-height: 440px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background: #e9e2d5;
-    }
-    .hero-art::before {
-      content: "";
-      position: absolute;
-      width: 72%;
-      aspect-ratio: 1;
-      border: 1px solid rgba(164, 71, 53, .35);
-      border-radius: 50%;
-    }
-    .hero-art::after {
-      content: "서울";
-      position: absolute;
-      right: 9%;
-      bottom: 5%;
-      color: rgba(164, 71, 53, .14);
-      font-family: "Nanum Myeongjo", serif;
-      font-size: clamp(90px, 15vw, 190px);
-      line-height: 1;
-    }
-    .art-center {
-      position: relative;
-      z-index: 1;
-      width: 58%;
-      aspect-ratio: 4 / 5;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 25px;
-      background: #b85c46;
-      color: #fff8ed;
-      box-shadow: 18px 22px 0 rgba(37, 37, 34, .09);
-      transform: rotate(-5deg);
-    }
-    .art-small {
-      font-family: var(--serif);
-      font-size: 11px;
-      letter-spacing: .18em;
-    }
-    .art-title {
-      font-family: "Nanum Myeongjo", var(--serif);
-      font-size: clamp(34px, 5vw, 66px);
-      line-height: 1.2;
-      letter-spacing: -.08em;
-    }
-    .art-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      font-family: var(--serif);
-      font-size: 11px;
-      letter-spacing: .12em;
-    }
-
-    .intro-strip {
-      background: var(--ink);
-      color: var(--paper);
-      padding: 22px 0;
-      overflow: hidden;
-    }
-    .strip-inner {
-      width: min(1180px, calc(100% - 64px));
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: rgba(248, 246, 240, .75);
-      font-family: var(--serif);
-      font-size: 13px;
-      letter-spacing: .12em;
-    }
-    .strip-inner span:nth-child(2) { color: #d58b78; }
-
-    .discover {
-      width: min(1180px, calc(100% - 64px));
-      margin: 0 auto;
-      padding: 105px 0 112px;
-    }
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 30px;
-      margin-bottom: 35px;
-    }
-    .section-kicker {
-      margin: 0 0 12px;
-      color: var(--red);
-      font-family: var(--serif);
-      font-size: 12px;
-      letter-spacing: .16em;
-    }
-    h2 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(38px, 5vw, 58px);
-      font-weight: 300;
-      letter-spacing: -.045em;
-    }
-    .section-note {
-      max-width: 330px;
-      margin: 0 0 5px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-    .feature-card {
-      min-height: 330px;
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      background: var(--cream);
-    }
-    .feature-visual {
-      min-height: 330px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.78) 0 18%, transparent 18.5%),
-        radial-gradient(ellipse at 50% 48%, #d8b58d 0 32%, transparent 32.5%),
-        radial-gradient(ellipse at 50% 48%, #8e9b70 0 43%, transparent 43.5%),
-        #d8c8b0;
-    }
-    .feature-visual::before {
-      content: "맛있는 서울";
-      position: absolute;
-      top: 22px;
-      left: 25px;
-      color: rgba(37, 37, 34, .68);
-      font-family: "Nanum Myeongjo", serif;
-      font-size: 14px;
-      letter-spacing: .1em;
-    }
-    .plate {
-      width: 46%;
-      aspect-ratio: 1;
-      border: 12px solid #f5f0e7;
-      border-radius: 50%;
-      box-shadow: 0 14px 35px rgba(37, 37, 34, .14);
-    }
-    .feature-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      padding: clamp(30px, 5vw, 65px);
-    }
-    .feature-number {
-      color: var(--red);
-      font-family: var(--serif);
-      font-size: 12px;
-      letter-spacing: .16em;
-    }
-    .feature-content h3 {
-      margin: 19px 0 14px;
-      font-family: var(--serif);
-      font-size: clamp(31px, 4vw, 46px);
-      font-weight: 300;
-      line-height: 1.12;
-    }
-    .feature-content p {
-      max-width: 390px;
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.9;
-    }
-    .feature-link {
-      margin-top: 27px;
-      padding-bottom: 7px;
-      border-bottom: 1px solid var(--red);
-      color: var(--red);
-      font-size: 12px;
-      letter-spacing: .08em;
-    }
-
-    .about {
-      padding: 74px 32px;
-      background: #eee9df;
-      text-align: center;
-    }
-    .about-inner { max-width: 650px; margin: auto; }
-    .about h2 { font-size: clamp(34px, 5vw, 48px); }
-    .about p:last-child {
-      margin: 20px auto 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 2;
-    }
-    footer {
-      width: min(1180px, calc(100% - 64px));
-      margin: auto;
-      padding: 27px 0;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: .06em;
-    }
-
-    @media (max-width: 760px) {
-      .site-header, .hero, .discover, .strip-inner, footer {
-        width: min(100% - 40px, 560px);
-      }
-      .site-header { min-height: 70px; }
-      .nav-links { gap: 15px; }
-      .nav-links a { font-size: 10px; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      .nav-cta { padding: 9px 12px; }
-      .hero {
-        min-height: auto;
-        padding: 65px 0 58px;
-        grid-template-columns: 1fr;
-        gap: 43px;
-      }
-      h1 { font-size: clamp(67px, 17vw, 100px); }
-      h1 .second-line { margin-left: 22px; }
-      .hero-copy { margin-top: 26px; }
-      .hero-art { min-height: 360px; }
-      .art-center { width: 53%; }
-      .strip-inner { flex-wrap: wrap; justify-content: center; text-align: center; }
-      .strip-inner span:last-child { display: none; }
-      .discover { padding: 72px 0 78px; }
-      .section-heading { display: block; }
-      .section-note { margin-top: 18px; }
-      .feature-card { grid-template-columns: 1fr; }
-      .feature-visual { min-height: 270px; }
-      .feature-content { padding: 32px 27px 38px; }
-      footer { flex-direction: column; text-align: center; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: .01ms !important; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nanum+Myeongjo&display=swap"
+        rel="stylesheet" />
 </head>
-
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Seoul Notes 首頁">
-      <span>Seoul My Soul</span>
-    </a>
-    <nav class="nav-links" aria-label="主選單">
-      <a href="#discover">Discover</a>
-      <a class="nav-cta" href="to-eat-detail.html">Eating List ↗</a>
+  <header class="header">
+    <nav class="container header-inner">
+      <a href="index.html" class="nav-logo">
+        <i class="ri-home-line"></i>
+        <span>HOMEPAGE</span>
+      </a>
     </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">SEOUL · 서울 · 首爾</p>
-        <h1>
-          <span>Little</span>
-          <span class="second-line">Seoul Guide.</span>
+  <section class="eat-hero">
+    <div class="container hero-inner">
+      <figure class="eat-hero-figure">
+        <img src="images/arirang-icon.png" alt="sticker" />
+      </figure>
+
+      <div class="eat-hero-content">
+        <p class="eyebrow">首爾 · 한국</p>
+        <h1 class="eat-hero-title">
+          <span class="eat-hero-title1">Seoul</span>
+          <span class="eat-hero-title2">Stores List</span>
         </h1>
-        <p class="hero-copy">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum, diam ac tempor ultrices, lectus purus finibus erat, at pretium nisl turpis ut dui.
+        <p class="eat-hero-subtitle">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum,
+          diam ac tempor ultrices, lectus purus finibus erat, at pretium nisl turpis ut dui.
         </p>
-        <div class="hero-actions">
-          <a class="text-link" href="#discover">往下探索 ↓</a>
-        </div>
-      </div>
-
-      <div class="hero-art" role="img" aria-label="以韓文字與暖色調構成的首爾旅行主視覺">
-        <div class="art-center">
-          <span class="art-small">A LITTLE JOURNAL OF</span>
-          <span class="art-title">서울<br />산책</span>
-          <span class="art-bottom"><span>SEOUL</span><span>37°33′N</span></span>
-        </div>
-      </div>
-    </section>
-
-    <div class="intro-strip" aria-label="網站主題">
-      <div class="strip-inner">
-        <span>— &nbsp; SLOW TRAVEL &nbsp; —</span>
       </div>
     </div>
+  </section>
 
-    <section class="discover" id="discover">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">01 / DISCOVER SEOUL</p>
-          <h2>Find your next<br />favourite place.</h2>
-        </div>
-        <p class="section-note">
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum, diam ac tempor ultrices, lectus purus finibus erat, at pretium nisl turpis ut dui.
-        </p>
+  <section class="list">
+    <div class="container">
+      <div class="toolbar">
+        <label for="searchInput" class="sr-only">Search</label>
+        <i class="ri-search-line"></i>
+        <input id="searchInput" type="text" placeholder="Search..." />
+        <div id="countText" aria-live="polite">0 of 0 places</div>
       </div>
 
-      <article class="feature-card">
-        <div class="feature-visual" role="img" aria-label="以餐盤和自然色調呈現的韓國美食主題插畫">
-          <div class="plate"></div>
-        </div>
-        <div class="feature-content">
-          <span class="feature-number">01 — FOOD & DRINK</span>
-          <h3>Eating<br />in Seoul.</h3>
-          <a class="feature-link" href="to-eat-detail.html">
-            VIEW THE EATING LIST &nbsp; ↗
-          </a>
-        </div>
-      </article>
-    </section>
-  </main>
+      <div class="filter-group">
+        <span class="filter-label">Categories</span>
+        <div class="chips" id="categoryChips"></div>
+      </div>
 
-  <footer>
+      <div class="filter-group">
+        <span class="filter-label">Areas</span>
+        <div class="chips" id="areaChips"></div>
+      </div>
+
+      <article class="cards" id="cardsContainer"></article>
+    </div>
+  </section>
+
+  <!-- 共用餐廳詳細資料彈窗 -->
+  <div class="modal" id="placeModal" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <section class="modal-panel" role="dialog" aria-modal="true"
+      aria-labelledby="modalTitle" aria-describedby="modalDescription" tabindex="-1">
+      <button class="modal-close" type="button" aria-label="關閉彈窗" data-modal-close>
+        <i class="ri-close-line" aria-hidden="true"></i>
+      </button>
+      <div class="modal-layout">
+        <div class="modal-image-wrap">
+          <img class="modal-image" id="modalImage" src="" alt="" />
+        </div>
+        <div class="modal-content">
+          <p class="modal-eyebrow">SEOUL · EATING LIST</p>
+          <h2 id="modalTitle"></h2>
+          <div class="modal-tags" id="modalTags"></div>
+          <section class="modal-section">
+            <p class="modal-detail" id="modalAddress"></p>
+            <div class="modal-map-links">
+              <a class="modal-link" id="modalGoogleMap" href="#" target="_blank" rel="noopener">
+                <i class="ri-map-pin-line" aria-hidden="true"></i> Google <i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+              </a>
+              <a class="modal-link" id="modalNaverMap" href="#" target="_blank" rel="noopener">
+                <i class="ri-map-pin-2-line" aria-hidden="true"></i> Naver <i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+              </a>
+            </div>
+          </section> 
+          <section class="modal-section">
+            <h3>ABOUT · 餐廳/店舖 簡介</h3>
+            <p class="modal-description" id="modalDescription"></p>
+          </section>
+
+          <section class="modal-section">
+            <h3>OPENING HOURS · 營業時間</h3>
+            <p class="modal-detail" id="modalHours"></p>
+          </section>
+          <section class="modal-section">
+            <h3>WHY VISIT · 推薦原因</h3>
+            <p class="modal-detail" id="modalReason"></p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. 資料：area 統一用 "Seongsu / Hannam / Mangwon" 這組 key，
+          顯示文字交給 AREA_LABEL 處理（修正資料不一致）
+       ========================================================= */
+    const places = [
+    
+    /* ======= Seongsu ========== */
+      { name: "Maman Gelato", 
+      category: "Dessert", 
+      area: "Seongsu", 
+      image: "images/maman.jpg", 
+      description: "招牌是迪拜巧克力味，很多人排隊", 
+      address: "南韓 Seoul, Seongdong-gu, Yeonmujang 9-gil, 8 1층", 
+      googleMapQuery: "Maman Gelato Seongsu",
+      naverMapQuery: "마망젤라또 서울 성수동",
+      hours: "11:30 – 21:00", 
+      reason: "想吃matcha with straberry和chocolate berry" },
+
+      { name: "探光 탐광", 
+      category: "Foreign", 
+      area: "Seongsu", 
+      image: "images/tamgwang.jpg", 
+      description: "其實是一間日料店", 
+      address: "首爾 城東區 聖水洞二街 315-24", 
+      googleMapQuery: "26 Yeonmujang 5ga-gil, Seongdong-gu, Seoul, 南韓",
+      naverMapQuery: "탐광 성수동",
+      hours: "11:30–15:30 ; 16:30–21:00", 
+      reason: "招牌是炸蝦排蓋飯，就是價格，套餐八十多（hkd）" },
+
+      { name: "글로리칼국수", 
+      category: "Korean", 
+      area: "Seongsu", 
+      image: "images/glory.jpg", 
+      description: "主打韓式刀切麵&人參雞湯", 
+      address: "南韓 Seoul, Mapo-gu, World Cup-ro 13-gil, 73 1층", 
+      googleMapQuery: "글로리칼국수 성수점",
+      naverMapQuery: "글로리칼국수 서울 성수동",
+      hours: "12:00–20:00 (no mon & tue) 那我當時挺幸運的", 
+      reason: "吃過的一個韓餐，覺得pretty good" },
+
+      { name: "HAUS NOWHERE", 
+      category: "Items", 
+      area: "Seongsu", 
+      image: "images/haus.jpg", 
+      description: "Gentle Monster 總部，涵蓋了所有旗下品牌", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "HAUS NOWHERE SEOUL",
+      naverMapQuery: "하우스 노웨어 서울",
+      hours: "11:00–21:00", 
+      reason: "想買太陽眼鏡，看抽象的藝術裝置" }, 
+
+  /* ======= Hannam ========== */
+      { name: "솔솥 한남점", 
+      category: "Korean", 
+      area: "Hannam", 
+      image: "#", 
+      description: "釜飯，好像有連鎖店，不一定是這間", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "Solsot Pot Rice House Hannam 솔솥 한남점",
+      naverMapQuery: "솔솥 한남점",
+      hours: "11:30–21:00", 
+      reason: "請在此填寫推薦原因或必點菜式。" },
+
+  /* ======= Mangwon ========== */
+      { name: "望遠市場", 
+      category: "Korean", 
+      area: "Mangwon", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "27 Poeun-ro 6-gil, Mapo-gu, Seoul, 南韓", 
+      googleMapQuery: "망원시장",
+      naverMapQuery: "망원시장",
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "請在此填寫推薦原因或必點菜式。" },
+
+   /* ======= Yeonnmam ========== */
+      { name: "oats coffee", 
+      category: "Cafe", 
+      area: "Yeonnam", 
+      image: "images/oat-coffee-2.jpeg", 
+      description: "跟弘大地鐵站有點距離，步行約14分鐘", 
+      address: "29-8 Seongmisan-ro 29-gil, Mapo-gu, Seoul, 南韓", 
+      googleMapQuery: "oats coffee Yeonnam",
+      naverMapQuery: "오츠커피 연남",
+      hours: "11:00–21:00", 
+      reason: "聽說這的維也納咖啡很好喝 6500won 挺便宜的" },
+
+        /* ======= chain ========== */
+
+     { name: "", 
+      category: "", 
+      area: "", 
+      image: "#", 
+      description: "請在此填寫餐廳簡介。", 
+      address: "請在此填寫韓文或英文地址。", 
+      googleMapQuery: "",
+      naverMapQuery: "",
+      hours: "請在此填寫營業時間及公休日。", 
+      reason: "請在此填寫推薦原因或必點菜式。" }
+    ];
+
+    const CATEGORY_LABEL = {
+      Korean: "Korean",
+      Dessert: "Dessert",
+      Bakery: "Bakery",
+      Cafe: "Cafe",
+      Foreign: "Foreign",
+      Items: "Items / Services"
+    };
+
+    /* key 與 places.area 完全對應，才不會出現 undefined */
+    const AREA_LABEL = {
+      Seongsu: "Seongsu-dong",
+      Hannam:  "Hannam",
+      Mangwon: "Mangwon-dong",
+      Yeonnam: "Yeonnam-dong",
+      delivery: "Delivery",
+      chain: "Chain"
+    };
+
+    /* 注意：value 要跟 places.area 一致（不是顯示文字） */
+    const CATEGORY_OPTIONS = [
+      { value: "All",      label: "All" },
+      { value: "Korean",   label: "Korean" },
+      { value: "Dessert",  label: "Dessert" },
+      { value: "Bakery",   label: "Bakery" },
+      { value: "Cafe",   label: "Cafe" },
+      { value: "Foreign", label: "Foreign" },
+      { value: "Items",   label: "Items / Serivces" }
+    ];
+
+    const AREA_OPTIONS = [
+      { value: "All",     label: "All" },
+      { value: "Seongsu", label: "Seongsu-dong" },
+      { value: "Hannam",  label: "Hannam" },
+      { value: "Mangwon", label: "Mangwon-dong" },
+      { value: "Yeonnam", label: "Yeonnam-dong" },
+      { value: "delivery", label: "Delivery" },
+      { value: "chain", label: "Chain" }
+    ];
+
+    /* =========================================================
+       2. State
+       ========================================================= */
+    const state = {
+      category: "All",
+      area: "All",
+      keyword: ""
+    };
+
+    /* =========================================================
+       3. DOM
+       ========================================================= */
+    const categoryChips  = document.getElementById("categoryChips");
+    const areaChips      = document.getElementById("areaChips");
+    const cardsContainer = document.getElementById("cardsContainer");
+    const countText      = document.getElementById("countText");
+    const searchInput    = document.getElementById("searchInput");
+
+    const placeModal       = document.getElementById("placeModal");
+    const modalPanel       = placeModal.querySelector(".modal-panel");
+    const modalTitle       = document.getElementById("modalTitle");
+    const modalTags        = document.getElementById("modalTags");
+    const modalImage       = document.getElementById("modalImage");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalAddress     = document.getElementById("modalAddress");
+    const modalHours       = document.getElementById("modalHours");
+    const modalReason      = document.getElementById("modalReason");
+    const modalGoogleMap   = document.getElementById("modalGoogleMap");
+    const modalNaverMap    = document.getElementById("modalNaverMap");
+    let lastFocusedElement = null;
+
+
+    /* =========================================================
+       4. 產生篩選按鈕
+       ========================================================= */
+    function buildChips(container, options, stateKey) {
+      container.innerHTML = "";
+
+      options.forEach(function (option) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip" + (state[stateKey] === option.value ? " active" : "");
+        btn.textContent = option.label;
+
+        btn.addEventListener("click", function () {
+          state[stateKey] = option.value;
+
+          container.querySelectorAll(".chip").forEach(function (c) {
+            c.classList.remove("active");
+          });
+          btn.classList.add("active");
+
+          renderCards();
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    /* =========================================================
+       5. 工具函式（修正：原本 getMapUrl 未定義、website 未定義）
+       ========================================================= */
+    function getMapUrl(place) {return "https://www.google.com/maps/search/?api=1&query=" +
+    ncodeURIComponent(place.name + " Seoul");}
+    function getWebUrl(place) {return place.website? place.website: "https://www.google.com/search?q=" +
+    encodeURIComponent(place.name + " Seoul");} 
+
+    /* =========================================================
+       6. 依 state 過濾並渲染
+       ========================================================= */
+    function renderCards() {
+      const keyword = state.keyword.trim().toLowerCase();
+
+      const filtered = places.filter(function (place) {
+        const matchCategory =
+          state.category === "All" || place.category === state.category;
+
+        const matchArea =
+          state.area === "All" || place.area === state.area;
+
+      const searchableText = [
+        place.name,
+        place.category,
+        place.area,
+        place.address,
+       place.description,
+       place.reason
+      ].join(" ").toLowerCase();
+
+const matchKeyword =
+  keyword === "" || searchableText.includes(keyword);
+
+        return matchCategory && matchArea && matchKeyword;
+      });
+
+      countText.innerHTML =
+        "<strong>" + filtered.length + "</strong> of " + places.length + " places";
+
+      if (filtered.length === 0) {
+        cardsContainer.innerHTML =
+          '<div class="empty">沒有符合條件的地點，換個篩選條件試試吧 🙈</div>';
+        return;
+      }
+
+      cardsContainer.innerHTML = filtered.map(function (place) {
+        const webUrl   = getWebUrl(place);
+        const webLabel = place.website ? "官方網站" : "MORE";
+
+        return (
+          '<div class="card">' +
+            "<h3>" + place.name + "</h3>" +
+            '<div class="tags">' +
+              '<span class="tag tag-category">' + CATEGORY_LABEL[place.category] + "</span>" +
+              '<span class="tag tag-area">'     + AREA_LABEL[place.area]       + "</span>" +
+            "</div>" +
+            '<div class="card-links">' +
+              '<button class="btn btn-web more-button" type="button" data-place-name="' +
+                place.name.replace(/"/g, "&quot;") + '">MORE <i class="ri-arrow-right-up-line" aria-hidden="true"></i></button>' +
+            "</div>" +
+          "</div>"
+        );
+      }).join("");
+    }
+
+    /* =========================================================
+       7. Modal：開啟、關閉及填入對應餐廳資料
+       ========================================================= */
+    function openPlaceModal(place) {
+      if (!place) return;
+
+      lastFocusedElement = document.activeElement;
+      modalTitle.textContent = place.name;
+      modalTags.innerHTML =
+        '<span class="modal-tag">' + CATEGORY_LABEL[place.category] + '</span>' +
+        '<span class="modal-tag">' + AREA_LABEL[place.area] + '</span>';
+
+      modalImage.src = place.image || "images/places/placeholder.jpg";
+      modalImage.alt = place.name;
+      modalDescription.textContent = place.description || "資料待補充。";
+      modalAddress.textContent = place.address || "資料待補充。";
+      modalHours.textContent = place.hours || "資料待補充。";
+      modalReason.textContent = place.reason || "資料待補充。";
+
+      const mapQuery = encodeURIComponent(place.name + " Seoul");
+
+      modalGoogleMap.href =
+      "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(
+       place.googleMapQuery || place.name + " " + place.address);
+
+    modalNaverMap.href =
+    "https://map.naver.com/p/search/" +
+    encodeURIComponent(
+     place.naverMapQuery || place.name + " " + place.address);
+
+      placeModal.classList.add("is-open");
+      placeModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      modalPanel.focus();
+    }
+
+    function closePlaceModal() {
+      if (!placeModal.classList.contains("is-open")) return;
+
+      placeModal.classList.remove("is-open");
+      placeModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+
+      if (lastFocusedElement) lastFocusedElement.focus();
+    }
+
+    // 事件委派：搜尋或篩選後重新產生的 Card 仍然可以開啟 Modal。
+    cardsContainer.addEventListener("click", function (event) {
+      const moreButton = event.target.closest(".more-button");
+      if (!moreButton) return;
+
+      const place = places.find(function (item) {
+        return item.name === moreButton.dataset.placeName;
+      });
+      openPlaceModal(place);
+    });
+
+    placeModal.querySelectorAll("[data-modal-close]").forEach(function (element) {
+      element.addEventListener("click", closePlaceModal);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (!placeModal.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") closePlaceModal();
+
+      if (event.key === "Tab") {
+        const focusable = placeModal.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    /* =========================================================
+       8. 搜尋
+       ========================================================= */
+    searchInput.addEventListener("input", function (event) {
+      state.keyword = event.target.value;
+      renderCards();
+    });
+
+    /* =========================================================
+       9. 初始化
+       ========================================================= */
+    buildChips(categoryChips, CATEGORY_OPTIONS, "category");
+    buildChips(areaChips, AREA_OPTIONS, "area");
+    renderCards();
+  </script>
+
+    <footer>
     <span>© 2026 SEOUL NOTES</span>
     <span>MADE BY KATY (PERSONAL COLLECTION) · ABOUT KOREA</span>
   </footer>
